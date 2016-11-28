@@ -1,0 +1,33 @@
+{
+  "name": "rfid-highway-app-server",
+  "version": "1.0.0",
+  "description": "A cloud applicaiton for synchronizing the assessing the data collected by the remote clients.",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GBhutra/rfid-highway-app-server.git"
+  },
+  "dependencies": {
+    "async": "2.1.4",
+    "crypto": "0.0.3",
+    "jsonwebtoken": "^7.1.9",
+    "mongodb": "2.2.11",
+    "mongoose": "4.7.0",
+    "underscore": "1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-mocha": "3.0.1",
+    "mocha": "3.2.0"
+  },
+  "author": "Ghanshyam Bhutra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GBhutra/rfid-highway-app-server/issues"
+  },
+  "homepage": "https://github.com/GBhutra/rfid-highway-app-server#readme"
+}
