@@ -1,12 +1,8 @@
 var mongoose = require('mongoose');
-var User = require('./user.js');
 
-var signSchema = new mongoose.Schema({
-  rfidTagId: { 
-    type: String, 
-    required: true,
-    unique: true
-  },
+var highwaySignSchema = {
+    signText: {type: String },
+    location: {type: String }
   //signText: { type: String, required: true},
   //signType: {type: String, required: true},
   //latitude: {type: Number, required: true},
@@ -15,11 +11,8 @@ var signSchema = new mongoose.Schema({
   //image: { type: String, match: /^http:\/\//i },
   //address: {type: String},
   //dateAdded: {type: Date},
-  addedBy: {
-    type: String,
-    match: /.+@.+\..+/,
-    lowercase: true 
-  },
-});
+};
 
-mongoose.model('Sign', signSchema);
+module.exports = new mongoose.Schema(highwaySignSchema);
+module.exports.highwaySignSchema = highwaySignSchema;
+

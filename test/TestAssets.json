@@ -1,0 +1,28 @@
+{
+    "Tags":[
+    {
+        "signText":"STOP",
+        "location":"RELLIS",
+        "epcVal":"12345"
+    },
+    {
+        "signText":"STOP",
+        "location":"RELLIS",
+        "epcVal":"12346"
+    },
+    {
+        "signText":"STOP",
+        "location":"RELLIS",
+        "epcVal":"12347"
+    },
+    {
+        "signText":"STOP",
+        "location":"RELLIS",
+        "epcVal":"12348"
+    },
+    {
+        "signText":"STOP",
+        "location":"RELLIS",
+        "epcVal":"12349"
+    }]
+}

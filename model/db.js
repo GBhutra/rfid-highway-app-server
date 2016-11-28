@@ -48,6 +48,5 @@ process.on('SIGTERM', function() {
 
 
 require('./user.js');
-require('./sign.js');
-//require('./device.js');
-//require('./report.js');
+require('./asset.js');
+require('./log.js');
