@@ -1,28 +1,43 @@
 {
-    "Tags":[
+    "Assets":[
     {
-        "signText":"STOP",
-        "location":"RELLIS",
-        "epcVal":"12345"
+        "data": 
+        {
+            "signText":"STOP",
+            "location":"RELLIS"
+        },
+        "tag":  {"epcVal":"12345"}
     },
     {
-        "signText":"STOP",
-        "location":"RELLIS",
-        "epcVal":"12346"
+        "data": 
+        {
+            "signText":"STOP",
+            "location":"RELLIS"
+        },
+        "tag":{"epcVal":"12346"}
+    },
+    {   
+        "data": 
+        {
+            "signText":"STOP",
+            "location":"RELLIS"
+        },
+        "tag":{"epcVal":"12347"}
     },
     {
-        "signText":"STOP",
-        "location":"RELLIS",
-        "epcVal":"12347"
+        "data": 
+        {
+            "signText":"STOP",
+            "location":"RELLIS"
+        },
+        "tag":{"epcVal":"12348"}
     },
     {
-        "signText":"STOP",
-        "location":"RELLIS",
-        "epcVal":"12348"
-    },
-    {
-        "signText":"STOP",
-        "location":"RELLIS",
-        "epcVal":"12349"
+        "data": 
+        {
+            "signText":"STOP",
+            "location":"RELLIS"
+        },
+        "tag":{"epcVal":"12349"}
     }]
 }

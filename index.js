@@ -1,13 +1,24 @@
-var db = require('./model/db.js');
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var AssetC = require('./controller/assetController');
+var LogC = require('./controller/logController');
 
-var user = new User();
-user.name = "Ghanshyam Bhutra";
-user.email = "something@ex.com";
-user.setPassword("password");
+var asset =  {data : {signText:"YIELD", location:"MAIN CAMPUS"}, tag : {epcVal:"12350"}};
 
-user.save(function(err) {
-    var token=user.generateJwt();
-    console.log("User registered !! token: "+token);
+
+//AssetC.create(asset,function(err) {
+//    if (!err)
+//        console.log("asset created !! ");
+//    else
+//        console.log("Error:"+err);
+//});
+
+AssetC.findWithEPC({epcVal:"12350"},function(error,asset) {
+    console.log("Asset Found ");
+    LogC.create({assetID:asset._id, tag : {epcVal:"12350"}},function(err){
+        if (!err)
+            console.log("Log created !! ");
+        else
+            console.log("Error:"+err);
+    });
 });
+
+

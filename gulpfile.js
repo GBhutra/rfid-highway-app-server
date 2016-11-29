@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 
-gulp.task('test', function() {
+gulp.task('test_assets', function() {
   var error = false;
   gulp.
-    src('./test/test.js').
+    src('./test/assetTestScript.js').
     pipe(mocha()).
     on('error', function() {
       console.log('Tests failed!');
@@ -18,6 +18,8 @@ gulp.task('test', function() {
     });
 });
 
+gulp.task('test', ['test_assets']);
+
 gulp.task('watch', function() {
-  gulp.watch(['./test/test.js'], ['test']);
+  gulp.watch(['./test/assetTestScript.js'], ['test']);
 });
