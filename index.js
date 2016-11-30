@@ -1,24 +1,14 @@
 var AssetC = require('./controller/assetController');
 var LogC = require('./controller/logController');
+var server = require('./server.js');
 
-var asset =  {data : {signText:"YIELD", location:"MAIN CAMPUS"}, tag : {epcVal:"12350"}};
+server().listen(3000);
 
-
-//AssetC.create(asset,function(err) {
-//    if (!err)
-//        console.log("asset created !! ");
-//    else
-//        console.log("Error:"+err);
-//});
 
 AssetC.findWithEPC({epcVal:"12350"},function(error,asset) {
-    console.log("Asset Found ");
-    LogC.create({assetID:asset._id, tag : {epcVal:"12350"}},function(err){
-        if (!err)
-            console.log("Log created !! ");
-        else
-            console.log("Error:"+err);
-    });
+    if (null==asset)
+        console.log("Asset Not found ");
+    else
+        console.log(asset);
 });
-
 

@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var highwaySign = require('./highwaySign/highwaySign');
-var tag = require('./tag.js');
+var tracker = require('./tracker.js');
 
 var assetSchema = new mongoose.Schema({
   data : highwaySign.highwaySignSchema,
-  tag : tag.RFIDTagSchema
+  tag : tracker.RFIDTagSchema
 });
 
 mongoose.model('Asset', assetSchema);
