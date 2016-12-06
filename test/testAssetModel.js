@@ -1,19 +1,21 @@
-/*
+
 var assert = require('assert');
 var mongodb = require('mongodb');
-var uri = 'mongodb://localhost:27017/rfidServer';
-var assetController = require('../controller/assetController');
+var wagner = require('wagner-core');
 var tags = require('./TestAssets');
 
-describe('assetController', function() {
+var uri = 'mongodb://localhost:27017/rfidServer';
+
+describe('Asset Model', function() {
   var db;
+  var Asset;
   
-  it('can insert a asset', function(done) {
+  it('can insert an asset', function(done) {
     var doc = {
 			"data":{"location":"Riverside","signText":"Stop","image":"13","lat":"30.635279","lon":"-96.4701"},
 			"tag":{"epcVal":"0xe200210020005589137a0272"}
 		};
-    assetController.create(doc, function(error) {
+    Asset.create(doc,function(error)  {
       assert.ifError(error);
       db.collection('assets').count({tag:{epcVal: doc.tag.epcVal}}, function(error, c) {
         assert.ifError(error);
@@ -23,7 +25,7 @@ describe('assetController', function() {
     });
   });
   
-  it('can find an asset from a given EPC Value', function(done) {
+  /*it('can find an asset from a given EPC Value', function(done) {
     var EPCVal = "0xe200210020005589137a0272";
     assetController.findWithEPC(EPCVal, function(error) {
       assert.ifError(error);
@@ -33,9 +35,16 @@ describe('assetController', function() {
         done();
       });
     });
-  });
+  });*/
 
   before(function(done) {
+    models = require('../models/db.js')(wagner);
+    var deps = wagner.invoke(function(Asset) {
+      return {Asset: Asset};
+    });
+
+    Asset = deps.Asset;
+    
     mongodb.MongoClient.connect(uri, function(error, conn) {
       if (error) {
         return done(error);
@@ -63,4 +72,4 @@ describe('assetController', function() {
   after(function(done) {
       db.close(done);
     });
-});*/
+});

@@ -14,14 +14,16 @@
   },
   "dependencies": {
     "async": "2.1.4",
+    "body-parser": "^1.15.2",
     "crypto": "0.0.3",
     "express": "4.14.0",
+    "http-status": "^0.2.3",
     "jsonwebtoken": "^7.1.9",
     "mongodb": "2.2.11",
     "mongoose": "4.7.0",
     "mongoose-tree": "^0.2.2",
     "superagent": "^3.1.0",
-    "underscore": "1.8.3",
+    "underscore": "^1.8.3",
     "wagner-core": "^0.2.0"
   },
   "devDependencies": {

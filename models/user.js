@@ -6,8 +6,7 @@ var userSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    match: /.+@.+\..+/,
-    lowercase: true
+    required: true
   },
   name: {
     type: String,
@@ -37,12 +36,6 @@ userSchema.methods.generateJwt = function() {
     name: this.name,
     exp: parseInt(expiry.getTime() / 1000),
   }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
-};
-
-userSchema.methods.validUser = function(emailAdd) {
-  User.find({ email: emailAdd }, function(error, docs) {
-    return error;
-  });
 };
 
 mongoose.model('User', userSchema);

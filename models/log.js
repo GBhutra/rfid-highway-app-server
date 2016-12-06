@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var LogData = require('./highwaySign/highwaySignLog');
 var Tracker = require('./tracker');
 
-var LogSchema = new mongoose.Schema({
+var LogSchema = {
   tag : Tracker.RFIDTagSchema,
   logData : LogData.highwaySignLogSchema
-});
+};
 
-mongoose.model('Log', LogSchema);
+module.exports = new mongoose.Schema(LogSchema);
+module.exports.LogSchema = LogSchema;

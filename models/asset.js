@@ -3,9 +3,10 @@ var highwaySign = require('./highwaySign/highwaySign');
 var tracker = require('./tracker.js');
 var wagner = require('wagner-core');
 
-var assetSchema = new mongoose.Schema({
+var assetSchema = {
   data : highwaySign.highwaySignSchema,
   tag : tracker.RFIDTagSchema
-});
+};
 
-mongoose.model('Asset', assetSchema);
+module.exports = new mongoose.Schema(assetSchema);
+module.exports.assetSchema = assetSchema;
