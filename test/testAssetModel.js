@@ -24,27 +24,45 @@ describe('Asset Model', function() {
       });
     });
   });
-  
-  /*it('can find an asset from a given EPC Value', function(done) {
-    var EPCVal = "0xe200210020005589137a0272";
-    assetController.findWithEPC(EPCVal, function(error) {
-      assert.ifError(error);
-      db.collection('assets').count({tag:{epcVal: EPCVal}}, function(error, c) {
+
+  it('can find an asset using EPCVal', function(done) {
+    var doc = {
+			"data":{"location":"Riverside","signText":"Stop","image":"13","lat":"30.635279","lon":"-96.4701"},
+			"tag":{"epcVal":"0xe200210020115589137a0272"}
+		};
+    db.collection('assets').insertOne(doc,function(err,r)  {
+      assert.ifError(err);
+      Asset.findOne({tag:doc.tag},function(error,row) {
         assert.ifError(error);
-        assert.equal(c, 1);
+        assert.equal("0xe200210020115589137a0272",row.tag.epcVal);
         done();
       });
     });
-  });*/
+  });
+
+  it('can find assets using metadata like location', function(done) {
+    //All the test data used have location 'Riverside' so the count of all the assets should be the same as the result from find
+    Asset.find({'data.location':"Riverside"},function(error,signs) {
+      db.collection('assets').find({'data.location':"Riverside"}).toArray(function(err,c){
+        assert.ifError(err);
+        assert.equal(c.length,signs.length);
+        done();
+      });
+    });
+  });
+
+  it('can update metadata like location', function(done) {
+    assert.equal(1,2);
+    done();
+  });
+  
 
   before(function(done) {
     models = require('../models/db.js')(wagner);
     var deps = wagner.invoke(function(Asset) {
       return {Asset: Asset};
     });
-
     Asset = deps.Asset;
-    
     mongodb.MongoClient.connect(uri, function(error, conn) {
       if (error) {
         return done(error);
