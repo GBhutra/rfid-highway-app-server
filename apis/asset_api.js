@@ -4,18 +4,30 @@ var status = require('http-status');
 var _ = require('underscore');
 
 module.exports = function(wagner) {
-  var api = express.Router();
-  api.use(bodyparser.json());
+  var assetRouter = express.Router();
+  assetRouter.use(bodyparser.json());
   
-  api.get('/',wagner.invoke(function(Asset) {
+  assetRouter.get('/assets',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
-      Asset.find({},function(err,assets) {
-        if (err)
-          res.json(err)
-        else
-          res.json(assets);
-      });
+      if (!req.user) {
+        res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
+      } else {
+        User
+          .findById(req.user._id)
+          .exec(function(err,usr){
+            if(err)
+              return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
+            else if(null==usr)
+              return res.status(status.UNAUTHORIZED).json({ error: 'Invalid UserID!!' });
+          });
+        Asset.find({},function(err,assets) {
+          if (err)
+            res.json(err)
+          else
+            res.json(assets);
+        });
+      }
     }
   }));
-  return api;
+  return assetRouter;
 };
