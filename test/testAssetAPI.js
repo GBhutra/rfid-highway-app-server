@@ -5,40 +5,63 @@ var status = require('http-status');
 var superagent = require('superagent');
 var wagner = require('wagner-core');
 var tags = require('./TestAssets');
+var uData = require('./TestUsers');
+var mongodb = require('mongodb');
 
+var tags = require('./TestAssets');
+
+var uri = 'mongodb://localhost:27017/rfidServer';
 var URL_ROOT = 'http://localhost:3000';
 
 describe('Assets api',function()  {
   var server;
   var app;
+  var db;
   var Asset;
   var Log;
   var User;
 
   it('can list all assets',function(done){
-    User.findOne({email:"admin@example.com"},function(error,user) {
-      assert.ifError(error);
-      superagent.get(URL_ROOT+'/assets')
-      .end(function(err,res){
-        if (err) {
+    superagent.get(URL_ROOT+'/assets')
+    .end(function(err,res){
+      if (err) {
+        return done(err);
+      }
+      db.collection('assets').find({}).toArray(function(err,assets) {
+        if (err)
           return done(err);
+        else if(res.text.length==JSON.stringify(assets).length) {
+          done();
         }
-        var assets = res.text;
-        Asset.find({},function(er,assets) {
-          if (er)
-            return done(err);
-          else if(res.text==JSON.stringify(assets))
-            done();
-          else  {
-            done("Assets mismatch!!");
-          }
-        });
+        else  {
+          done("number of assets mismatch!!");
+        }
       });
     });
   });
 
+ it('can list all assets from a location',function(done){
+    superagent.get(URL_ROOT+'/assets/Riverside')
+    .end(function(err,res){
+      if (err) {
+        return done(err);
+      }
+     db.collection('assets').find({'data.location':'Riverside'}).toArray(function(err,assets) {
+        if (err)
+          return done(err);
+        else if(res.text.length==JSON.stringify(assets).length) {
+          done();
+        }
+        else  {
+          done("number of assets mismatch!!");
+        }
+      });
+    });
+  });
+    
+
   before(function() {
-    app = express();
+   app = express();
    models = require('../models/db.js')(wagner);
     var deps = wagner.invoke(function(Asset,Log,User) {
       return {
@@ -62,6 +85,26 @@ describe('Assets api',function()  {
           });
         });
         require('async').parallel(fns);
+    });
+
+    User.remove({},function(error)  {
+      if (error)
+        assert.ifError(error);
+        var fns = [];
+        uData.Users.forEach(function(user){
+          User.create(user,function(err){
+            if (err)
+              callback(error);
+          });
+        });
+        require('async').parallel(fns);
+    });
+
+    mongodb.MongoClient.connect(uri, function(error, conn) {
+      if (error) {
+        return done(error);
+      }
+      db = conn;
     });
 
     app.use(function(req, res, next) {

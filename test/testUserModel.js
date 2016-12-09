@@ -2,6 +2,7 @@
 var assert = require('assert');
 var mongodb = require('mongodb');
 var wagner = require('wagner-core');
+var tData = require('./TestUsers');
 
 var uri = 'mongodb://localhost:27017/rfidServer';
 
@@ -108,6 +109,16 @@ describe('User Model', function() {
         if (error) {
           return done(error);
         }
+        var fns = [];
+        tData.Users.forEach(function(user) {
+          fns.push(function(callback) {
+            db.collection('users').insert(user, function(error, res){
+              if (error)
+                 callback(error);
+              });
+          });
+        });
+        require('async').parallel(fns, done);
         done();
       });
     });

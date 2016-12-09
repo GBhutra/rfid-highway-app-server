@@ -29,5 +29,32 @@ module.exports = function(wagner) {
       }
     }
   }));
+
+  assetRouter.get('/assets/:loc',wagner.invoke(function(Asset,User) {
+    return function(req,res)  {
+      if (!req.user) {
+        res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
+      } else {
+        User
+          .findById(req.user._id)
+          .exec(function(err,usr){
+            if(err)
+              return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
+            else if(null==usr)
+              return res.status(status.UNAUTHORIZED).json({ error: 'Invalid UserID!!' });
+          });
+        Asset.find({})
+         .where('data.location')
+         .equals('Riverside')
+         .exec(function(err,assets) {
+          if (err)
+            res.json(err)
+          else
+            res.json(assets);
+        });
+      }
+    }
+  }));
+
   return assetRouter;
 };
