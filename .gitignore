@@ -38,3 +38,6 @@ jspm_packages
 
 # DB data
 data
+
+#configuration files
+config

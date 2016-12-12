@@ -59,7 +59,7 @@ describe('Assets api',function()  {
     });
   });
     
-
+//before the test begin
   before(function() {
    app = express();
    models = require('../models/db.js')(wagner);
