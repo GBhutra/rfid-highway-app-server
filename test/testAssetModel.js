@@ -52,8 +52,21 @@ describe('Asset Model', function() {
   });
 
   it('can update metadata like location', function(done) {
-    assert.equal(1,2);
-    done();
+    var doc = {
+			"tag":{"epcVal":"0xe200210020115589137a0272"}
+		};
+    Asset.findOne({tag:{epcVal: doc.tag.epcVal}},function(error,sign) {
+      assert.ifError(error);
+      sign.data.location = "Not Riverside";
+      sign.save(function(err){
+         assert.ifError(err);
+         db.collection('assets').findOne({tag:{epcVal: doc.tag.epcVal}},function(er,c){
+            assert.ifError(err);
+            assert.equal(c.data.location,'Not Riverside');
+            done();
+         });
+      });
+    });
   });
   
 
