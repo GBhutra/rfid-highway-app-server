@@ -35,7 +35,44 @@ describe('Assets api',function()  {
         }
         else  {
           done("number of assets mismatch!!");
+
         }
+      });
+    });
+  });
+
+  it('can create an asset',function(done){
+    superagent.post(URL_ROOT+'/assets/asset')
+    .set('Content-Type','application/json')
+    .send({
+      "data":{"location":"Riverside","signText":"Street: Bryan Rd","image":"3","lat":"30.638921","lon":"-96.4678"},
+			"tag":{"epcVal":"0xe20021002000531114712342"}
+    })
+    .end(function(err,res){
+      if (err) {
+        return done(err);
+      }
+      assert.equal(res.body,"New Asset Created with epcVal: 0xe20021002000531114712342");
+      done();
+    });
+  });
+
+  it('can update an asset',function(done){
+    superagent.put(URL_ROOT+'/assets/asset/')
+    .query({epcVal:"0xe20021002000531114712342"})
+    .set('Content-Type','application/json')
+    .send({
+      "data":{"location":"Not Riverside","signText":"Street: Bryan Rd","image":"3","lat":"30.638921","lon":"-96.4678"},
+			"tag":{"epcVal":"0xe20021002000531114712342"}
+    })
+    .end(function(err,res){
+      if (err) {
+        return done(err);
+      }
+      db.collection('assets').findOne({tag:{epcVal: doc.tag.epcVal}}, function(error,asset) {
+        assert.ifError(error);
+        assert.equal(asset.data.location,"Not Riverside");
+        done();
       });
     });
   });
@@ -59,7 +96,7 @@ describe('Assets api',function()  {
     });
   });
     
-
+//before the test begin
   before(function() {
    app = express();
    models = require('../models/db.js')(wagner);

@@ -56,5 +56,58 @@ module.exports = function(wagner) {
     }
   }));
 
+  assetRouter.post('/assets/asset',wagner.invoke(function(Asset,User) {
+    return function(req,res)  {
+      if (!req.user) {
+        res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
+      } else {
+        User
+          .findById(req.user._id)
+          .exec(function(err,usr){
+            if(err)
+              return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
+            else if(null==usr)
+              return res.status(status.UNAUTHORIZED).json({ error: 'Invalid UserID!!' });
+          });
+        var asset = new Asset();
+        asset.data = req.body.data;
+        asset.tag = req.body.tag;
+        asset.save(function(err,as){
+          if (err)
+            res.json(err);
+          else
+            res.json("New Asset Created with epcVal: "+as.tag.epcVal);
+        });
+      }
+    }
+  }));
+
+  assetRouter.put('/assets/asset/:epcVal',wagner.invoke(function(Asset,User) {
+    return function(req,res)  {
+      if (!req.user) {
+        res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
+      } else {
+        User
+          .findById(req.user._id)
+          .exec(function(err,usr){
+            if(err)
+              return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
+            else if(null==usr)
+              return res.status(status.UNAUTHORIZED).json({ error: 'Invalid UserID!!' });
+          });
+          Asset.findOne({'tag.epcVal':req.params.epcVal},function(error,doc) {
+            doc.data = req.body.data;
+            doc.tag = req.body.tag;
+            doc.save(function(err){
+              if (err)
+                res.json(err);
+              else
+                res.json("Asset wit epcVal: "+docs.tag.epcVal+" successfully Updated!");
+            });
+        });
+      }
+    }
+  }));
+
   return assetRouter;
 };
