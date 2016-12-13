@@ -26,14 +26,21 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "semantic-ui": "^2.2.6",
-    "superagent": "^3.1.0",
     "underscore": "^1.8.3",
     "wagner-core": "^0.2.0"
   },
   "devDependencies": {
+    "browserify": "^13.1.1",
+    "chai": "^3.5.0",
     "gulp": "3.9.1",
+    "gulp-browserify": "^0.5.1",
     "gulp-mocha": "3.0.1",
-    "mocha": "3.2.0"
+    "karma": "^1.3.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-mocha": "^1.3.0",
+    "mocha": "3.2.0",
+    "superagent": "^3.1.0"
   },
   "author": "Ghanshyam Bhutra",
   "license": "MIT",
