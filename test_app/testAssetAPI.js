@@ -10,7 +10,7 @@ var mongodb = require('mongodb');
 
 var tags = require('./TestAssets');
 
-var uri = 'mongodb://localhost:27017/rfidServer';
+var uri = 'mongodb://localhost:27017/rfidServerTest';
 var URL_ROOT = 'http://localhost:3000';
 
 describe('Assets api',function()  {

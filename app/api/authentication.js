@@ -1,4 +1,4 @@
-function setupAuth(User, app, User) {
+function setupAuth(User, app, Config) {
     var passport = require('passport');
     var LocalStrategy = require('passport-local').Strategy;
     
@@ -38,7 +38,7 @@ function setupAuth(User, app, User) {
 
   // Express middlewares
   app.use(require('express-session')({
-    secret: 'MY_SECRET'
+    secret: Config.secretKey
   }));
   app.use(passport.initialize());
   app.use(passport.session());

@@ -4,7 +4,7 @@ var mocha = require('gulp-mocha');
 gulp.task('test_asset_model', function() {
   var error = false;
   gulp.
-    src('./test/testAssetModel.js').
+    src('./test_app/testAssetModel.js').
     pipe(mocha()).
     on('error', function() {
       console.log('Tests failed!');

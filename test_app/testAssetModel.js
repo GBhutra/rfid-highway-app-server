@@ -71,7 +71,7 @@ describe('Asset Model', function() {
   
 
   before(function(done) {
-    models = require('../models/db.js')(wagner);
+    models = require('../app/models/db.js')(wagner);
     var deps = wagner.invoke(function(Asset) {
       return {Asset: Asset};
     });

@@ -2,22 +2,22 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var dbURI = 'mongodb://localhost:27017/rfidServer';
 var gracefulShutdown;
+
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
 }
 
 
 module.exports = function(wagner) {
-  mongoose.connect(dbURI);
+  mongoose.connect(Config.dbURI);
 
   wagner.factory('db', function() {
     return mongoose;
   });
 
-  require ('./user');
   var Asset = mongoose.model('Asset',require('./asset'),'assets');
   var Log = mongoose.model('Log',require('./log'),'logs');
-  var User = mongoose.model('User');
+  var User = mongoose.model('User',require ('./user')(Config));
 
   var models = {
     Asset:Asset,
