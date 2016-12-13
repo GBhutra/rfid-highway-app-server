@@ -61,8 +61,6 @@ function setupAuth(User, app, Config) {
         }       
   });
 });
-
-
   app.get('/',
     passport.authenticate('local', { failureRedirect: '/fail' }),
     function(req, res) {

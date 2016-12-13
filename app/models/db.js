@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-module.exports = function(wagner) {
+module.exports = function(wagner, Config) {
   mongoose.connect(Config.dbURI);
 
   wagner.factory('db', function() {

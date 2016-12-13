@@ -1,10 +1,12 @@
 var express = require('express');
 var wagner = require('wagner-core');
+var http = require('http');
 
-var config = require('../dependencies')(wagner);
+//Read the configuration file
+var config = require('../dependencies')(wagner);;
 
 //Initialize the models
-wagner.invoke(require('./models/db.js')(wagner));
+require('./models/db.js')(wagner, config);
 
 
 var app = express();
@@ -16,5 +18,8 @@ wagner.invoke(require('./api/authentication'), { app: app, User: user });
 
 app.use('/',require('./api/asset_api')(wagner));
 
-app.listen(3000);
-console.log('Listening on port 3000!');
+var port = process.env.PORT || config.PORT;
+app.set('port', port);
+app.listen(port);
+
+console.log('Listening on port '+port);
