@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html ng-app="meanApp">
+<html ng-app="rfidLab">
 <head>
-  <title>MEAN stack authentication example</title>
-  <base href="/">
-  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"> </script>
+    <script type="text/javascript" src="bin/index.js"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 </head>
-<body ng-view>
-
-  <script src="semantic/dist/semantic.min.js"></script>
-  <script src="lib/angular/angular.min.js"></script>
-  <script src="lib/angular/angular-route.min.js"></script>
-  <script src="app.min.js"></script>
-
+<body>
+    <nav-bar></nav-bar>
+    <div class="content-wrapper" ng-view></div>
 </body>
 </html>
