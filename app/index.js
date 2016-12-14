@@ -15,10 +15,13 @@ var app = express();
 app.get('/',function(req,res)  { res.send("Hello World ! This is the DashBoard"); })
 
 var user = wagner.invoke(function(User) {return User} );
-wagner.invoke(require('./api/authentication'), { app: app, User: user });
+wagner.invoke(require('./authentication'), { app: app, User: user });
 
 app.use('/',require('./api/asset_api')(wagner));
 
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, '../app_client', 'index.html'));
+});
 app.use(express.static(path.join(__dirname, '../public')));
 
 // catch 404 and forward to error handler
@@ -52,9 +55,9 @@ app.use(function(err, req, res, next) {
 });
 
 
-
-
-var port = process.env.PORT || config.PORT;
-app.set('port', port);
-app.listen(port);
-console.log('Listening on port '+port);
+wagner.invoke(function(Config) {
+    var port = process.env.PORT || Config.PORT;
+    app.set('port', port);
+    app.listen(port);
+    console.log('Listening on port '+port);
+} );
