@@ -9,6 +9,7 @@ var uri = 'mongodb://localhost:27017/rfidServer';
 describe('Asset Model', function() {
   var db;
   var Asset;
+  var models;
   
   it('can insert an asset', function(done) {
     var doc = {
@@ -71,7 +72,9 @@ describe('Asset Model', function() {
   
 
   before(function(done) {
-    models = require('../app/models/db.js')(wagner);
+    require('../dependencies')(wagner);
+    models = require('../../app/models/db.js');
+    models(wagner);
     var deps = wagner.invoke(function(Asset) {
       return {Asset: Asset};
     });
@@ -101,6 +104,13 @@ describe('Asset Model', function() {
   });
 
   after(function(done) {
-      db.close(done);
+    var fns = [];
+    fns.push(function(callback) {
+      db.close(callback);
     });
+    fns.push(function(callback) {
+      models.close("test Complete", callback);
+    });
+    require('async').parallel(fns, done);
+  });
 });

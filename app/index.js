@@ -1,12 +1,13 @@
 var express = require('express');
 var wagner = require('wagner-core');
 var http = require('http');
+var path = require('path');
 
 //Read the configuration file
-var config = require('../dependencies')(wagner);;
+require('../dependencies')(wagner);
 
 //Initialize the models
-require('./models/db.js')(wagner, config);
+require('./models/db.js')(wagner);
 
 
 var app = express();

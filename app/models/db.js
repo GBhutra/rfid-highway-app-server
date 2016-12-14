@@ -8,8 +8,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-module.exports = function(wagner, Config) {
-  mongoose.connect(Config.dbURI);
+module.exports = function(wagner) {
+
+  var config = wagner.invoke(function(Config) {return Config} );
+  mongoose.connect(config.dbURI);
 
   wagner.factory('db', function() {
     return mongoose;
@@ -17,7 +19,7 @@ module.exports = function(wagner, Config) {
 
   var Asset = mongoose.model('Asset',require('./asset'),'assets');
   var Log = mongoose.model('Log',require('./log'),'logs');
-  var User = mongoose.model('User',require ('./user')(Config));
+  var User = mongoose.model('User',require ('./user')(config));
 
   var models = {
     Asset:Asset,
@@ -71,3 +73,5 @@ module.exports = function(wagner, Config) {
       process.exit(0);
     });
   });
+
+  module.exports.close = gracefulShutdown;

@@ -20,6 +20,7 @@ describe('Assets api',function()  {
   var Asset;
   var Log;
   var User;
+  var models;
 
   it('can list all assets',function(done){
     superagent.get(URL_ROOT+'/assets')
@@ -98,8 +99,10 @@ describe('Assets api',function()  {
     
 //before the test begin
   before(function() {
-   app = express();
-   models = require('../models/db.js')(wagner);
+    app = express();
+    require('../dependencies')(wagner);
+    models=require('../../app/models/db.js');
+    models(wagner);
     var deps = wagner.invoke(function(Asset,Log,User) {
       return {
         Asset: Asset,
@@ -152,14 +155,22 @@ describe('Assets api',function()  {
       });
     });
 
-    app.use(require('../apis/asset_api')(wagner));
+    app.use(require('../../app/api/asset_api')(wagner));
     server = app.listen(3000);
   });
   
 
-  after(function() {
+  after(function(done) {
     // Shut the server down when we're done
     server.close();
+    var fns = [];
+    fns.push(function(callback) {
+      db.close(callback);
+    });
+    fns.push(function(callback) {
+      models.close("test Complete", callback);
+    });
+    require('async').parallel(fns, done);
   });
 
 });
