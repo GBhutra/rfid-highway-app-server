@@ -1,332 +1,40 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-exports.AddToCartController = function($scope, $http, $user, $timeout) {
-  $scope.addToCart = function(product) {
-    var obj = { product: product._id, quantity: 1 };
-    $user.user.data.cart.push(obj);
-
-    $http.
-      put('/api/v1/me/cart', { data: { cart: $user.user.data.cart } }).
-      success(function(data) {
-        $user.loadUser();
-        $scope.success = true;
-
-        $timeout(function() {
-          $scope.success = false;
-        }, 5000);
-      });
+exports.frontpage = function()  {
+  return{
+    templateUrl: 'templates/frontpage.html'
   };
 };
 
-exports.CategoryProductsController = function($scope, $routeParams, $http) {
-  var encoded = encodeURIComponent($routeParams.category);
-
-  $scope.price = undefined;
-
-  $scope.handlePriceClick = function() {
-    if ($scope.price === undefined) {
-      $scope.price = -1;
-    } else {
-      $scope.price = 0 - $scope.price;
-    }
-    $scope.load();
-  };
-
-  $scope.load = function() {
-    var queryParams = { price: $scope.price };
-    $http.
-      get('/api/v1/product/category/' + encoded, { params: queryParams }).
-      success(function(data) {
-        $scope.products = data.products;
-      });
-  };
-
-  $scope.load();
-
-  setTimeout(function() {
-    $scope.$emit('CategoryProductsController');
-  }, 0);
-};
-
-exports.CategoryTreeController = function($scope, $routeParams, $http) {
-  var encoded = encodeURIComponent($routeParams.category);
-  $http.
-    get('/api/v1/category/id/' + encoded).
-    success(function(data) {
-      $scope.category = data.category;
-      $http.
-        get('/api/v1/category/parent/' + encoded).
-        success(function(data) {
-          $scope.children = data.categories;
-        });
-    });
-
-  setTimeout(function() {
-    $scope.$emit('CategoryTreeController');
-  }, 0);
-};
-
-exports.CheckoutController = function($scope, $user, $http) {
-  // For update cart
-  $scope.user = $user;
-
-  $scope.updateCart = function() {
-    $http.
-      put('/api/v1/me/cart', $user.user).
-      success(function(data) {
-        $scope.updated = true;
-      });
-  };
-
-  // For checkout
-  Stripe.setPublishableKey('pk_test_KVC0AphhVxm52zdsM4WoBstU');
-
-  $scope.stripeToken = {
-    number: '4242424242424242',
-    cvc: '123',
-    exp_month: '12',
-    exp_year: '2016'
-  };
-
-  $scope.checkout = function() {
-    $scope.error = null;
-    Stripe.card.createToken($scope.stripeToken, function(status, response) {
-      if (status.error) {
-        $scope.error = status.error;
-        return;
-      }
-
-      $http.
-        post('/api/v1/checkout', { stripeToken: response.id }).
-        success(function(data) {
-          $scope.checkedOut = true;
-          $user.user.data.cart = [];
-        });
-    });
+exports.login = function()  {
+  return{
+   // controller: 'loginController',
+    templateUrl: 'templates/login.html'
   };
 };
-
-exports.NavBarController = function($scope, $user) {
-  $scope.user = $user;
-
-  setTimeout(function() {
-    $scope.$emit('NavBarController');
-  }, 0);
-};
-
-exports.ProductDetailsController = function($scope, $routeParams, $http) {
-  var encoded = encodeURIComponent($routeParams.id);
-
-  $http.
-    get('/api/v1/product/id/' + encoded).
-    success(function(data) {
-      $scope.product = data.product;
-    });
-
-  setTimeout(function() {
-    $scope.$emit('ProductDetailsController');
-  }, 0);
-};
-
 },{}],2:[function(require,module,exports){
-exports.addToCart = function() {
-  return {
-    controller: 'AddToCartController',
-    templateUrl: '/B-examples/templates/add_to_cart.html'
-  };
-};
-
-exports.categoryProducts = function() {
-  return {
-    controller: 'CategoryProductsController',
-    templateUrl: '/B-examples/templates/category_products.html'
-  }
-};
-
-exports.categoryTree = function() {
-  return {
-    controller: 'CategoryTreeController',
-    templateUrl: '/B-examples/templates/category_tree.html'
-  }
-};
-
-exports.checkout = function() {
-  return {
-    controller: 'CheckoutController',
-    templateUrl: '/B-examples/templates/checkout.html'
-  };
-};
-
-exports.navBar = function() {
-  return {
-    controller: 'NavBarController',
-    templateUrl: '/B-examples/templates/nav_bar.html'
-  };
-};
-
-exports.productDetails = function() {
-  return {
-    controller: 'ProductDetailsController',
-    templateUrl: '/B-examples/templates/product_details.html'
-  };
-};
-
-},{}],3:[function(require,module,exports){
-var controllers = require('./controllers');
 var directives = require('./directives');
-var services = require('./services');
 var _ = require('underscore');
 
-var components = angular.module('mean-retail.components', ['ng']);
-
-_.each(controllers, function(controller, name) {
-  components.controller(name, controller);
-});
+var components = angular.module('rfid-lab.components', ['ng']);
 
 _.each(directives, function(directive, name) {
   components.directive(name, directive);
 });
 
-_.each(services, function(factory, name) {
-  components.factory(name, factory);
-});
-
-var app = angular.module('mean-retail', ['mean-retail.components', 'ngRoute']);
+var app = angular.module('rfid-lab', ['rfid-lab.components', 'ngRoute']);
 
 app.config(function($routeProvider) {
   $routeProvider.
-    when('/category/:category', {
-      templateUrl: '/B-examples/templates/category_view.html'
+  when('/', {
+      templateUrl: 'templates/frontpage.html'
     }).
-    when('/checkout', {
-      template: '<checkout></checkout>'
-    }).
-    when('/product/:id', {
-      template: '<product-details></product-details>'
+    when('/login', {
+      templateUrl: 'templates/login.html'
     });
 });
 
-},{"./controllers":1,"./directives":2,"./services":4,"underscore":6}],4:[function(require,module,exports){
-var status = require('http-status');
 
-exports.$user = function($http) {
-  var s = {};
-
-  s.loadUser = function() {
-    $http.
-      get('/api/v1/me').
-      success(function(data) {
-        s.user = data.user;
-      }).
-      error(function(data, status) {
-        if (status === status.UNAUTHORIZED) {
-          s.user = null;
-        }
-      });
-  };
-
-  s.loadUser();
-
-  setInterval(s.loadUser, 60 * 60 * 1000);
-
-  return s;
-};
-
-},{"http-status":5}],5:[function(require,module,exports){
-// Generated by CoffeeScript 1.10.0
-module.exports = {
-  100: 'Continue',
-  101: 'Switching Protocols',
-  200: 'OK',
-  201: 'Created',
-  202: 'Accepted',
-  203: 'Non-Authoritative Information',
-  204: 'No Content',
-  205: 'Reset Content',
-  206: 'Partial Content',
-  300: 'Multiple Choices',
-  301: 'Moved Permanently',
-  302: 'Found',
-  303: 'See Other',
-  304: 'Not Modified',
-  305: 'Use Proxy',
-  307: 'Temporary Redirect',
-  400: 'Bad Request',
-  401: 'Unauthorized',
-  402: 'Payment Required',
-  403: 'Forbidden',
-  404: 'Not Found',
-  405: 'Method Not Allowed',
-  406: 'Not Acceptable',
-  407: 'Proxy Authentication Required',
-  408: 'Request Time-out',
-  409: 'Conflict',
-  410: 'Gone',
-  411: 'Length Required',
-  412: 'Precondition Failed',
-  413: 'Request Entity Too Large',
-  414: 'Request-URI Too Large',
-  415: 'Unsupported Media Type',
-  416: 'Requested Range not Satisfiable',
-  417: 'Expectation Failed',
-  422: 'Unprocessable Entity',
-  424: 'Failed Dependency',
-  429: 'Too Many Requests',
-  451: 'Unavailable For Legal Reasons',
-  500: 'Internal Server Error',
-  501: 'Not Implemented',
-  502: 'Bad Gateway',
-  503: 'Service Unavailable',
-  504: 'Gateway Time-out',
-  505: 'HTTP Version not Supported',
-  507: 'Insufficient Storage',
-  CONTINUE: 100,
-  SWITCHING_PROTOCOLS: 101,
-  OK: 200,
-  CREATED: 201,
-  ACCEPTED: 202,
-  NON_AUTHORITATIVE_INFORMATION: 203,
-  NO_CONTENT: 204,
-  RESET_CONTENT: 205,
-  PARTIAL_CONTENT: 206,
-  MULTIPLE_CHOICES: 300,
-  MOVED_PERMANENTLY: 301,
-  FOUND: 302,
-  SEE_OTHER: 303,
-  NOT_MODIFIED: 304,
-  USE_PROXY: 305,
-  TEMPORARY_REDIRECT: 307,
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  PAYMENT_REQUIRED: 402,
-  FORBIDDEN: 403,
-  NOT_FOUND: 404,
-  METHOD_NOT_ALLOWED: 405,
-  NOT_ACCEPTABLE: 406,
-  PROXY_AUTHENTICATION_REQUIRED: 407,
-  REQUEST_TIMEOUT: 408,
-  CONFLICT: 409,
-  GONE: 410,
-  LENGTH_REQUIRED: 411,
-  PRECONDITION_FAILED: 412,
-  REQUEST_ENTITY_TOO_LARGE: 413,
-  REQUEST_URI_TOO_LONG: 414,
-  UNSUPPORTED_MEDIA_TYPE: 415,
-  REQUESTED_RANGE_NOT_SATISFIABLE: 416,
-  EXPECTATION_FAILED: 417,
-  UNPROCESSABLE_ENTITY: 422,
-  FAILED_DEPENDENCY: 424,
-  TOO_MANY_REQUESTS: 429,
-  UNAVAILABLE_FOR_LEGAL_REASONS: 451,
-  INTERNAL_SERVER_ERROR: 500,
-  NOT_IMPLEMENTED: 501,
-  BAD_GATEWAY: 502,
-  SERVICE_UNAVAILABLE: 503,
-  GATEWAY_TIMEOUT: 504,
-  HTTP_VERSION_NOT_SUPPORTED: 505,
-  INSUFFICIENT_STORAGE: 507
-};
-
-},{}],6:[function(require,module,exports){
+},{"./directives":1,"underscore":3}],3:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1876,4 +1584,4 @@ module.exports = {
   }
 }.call(this));
 
-},{}]},{},[3])
+},{}]},{},[2])
