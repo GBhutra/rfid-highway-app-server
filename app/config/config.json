@@ -1,0 +1,5 @@
+{
+    "dbURI":"mongodb://localhost:27017/rfidServer",
+    "secretKey":"alfknmcaca[",
+    "PORT":"3200"
+}
