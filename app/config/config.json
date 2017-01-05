@@ -1,5 +1,5 @@
 {
-    "dbURI":"mongodb://localhost:27017/rfidServer",
+    "dbURI":"mongodb://heroku_jlcpq7qb:tfqnf0nih7k70tlpt3b4gemh0a@ds133358.mlab.com:33358/heroku_jlcpq7qb",
     "secretKey":"alfknmcaca[",
     "PORT":"3200"
 }
