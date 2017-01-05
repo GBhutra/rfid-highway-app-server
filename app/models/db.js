@@ -1,18 +1,13 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
-var dbURI = 'mongodb://heroku_jlcpq7qb:tfqnf0nih7k70tlpt3b4gemh0a@ds133358.mlab.com:33358/heroku_jlcpq7qb';
 var gracefulShutdown;
-
-// if (process.env.NODE_ENV === 'production') {
-//   dbURI = process.env.MONGODB_URI;
-// }
-
+var dbURI;
 
 module.exports = function(wagner) {
 
   var config = wagner.invoke(function(Config) {return Config} );
-  mongoose.connect(config.dbURI);
-
+  mongoose.connect(process.env.MONGOLAB_URI || config.dbURI);
+  dbURI = process.env.MONGOLAB_URI || config.dbURI;
   wagner.factory('db', function() {
     return mongoose;
   });
