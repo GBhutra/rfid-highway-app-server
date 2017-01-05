@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
-var dbURI = 'mongodb://localhost:27017/rfidServer';
+var dbURI = 'mongodb://heroku_jlcpq7qb:tfqnf0nih7k70tlpt3b4gemh0a@ds133358.mlab.com:33358/heroku_jlcpq7qb';
 var gracefulShutdown;
 
 if (process.env.NODE_ENV === 'production') {
