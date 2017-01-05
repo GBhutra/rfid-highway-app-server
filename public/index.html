@@ -1,14 +1,29 @@
-<html ng-app="rfid-lab">
-    <head>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"> </script>
-        <script type="text/javascript" src="bin/index.js"></script>
-        <!--script type="text/javascript" src="semantic/dist/semantic.min.js"></script-->
+<html ng-app="myApp">
+  <head>
+    <script type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js">
+    </script>
 
-        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    </head>
-    <title>RFID Lab</title>
-    <body>   
-        <div ng-view></div>
-    </body>
+    <script type="text/javascript">
+      var app = angular.module('myApp', ['ng']);
+
+      app.directive('counterDirective', function() {
+        return {
+          controller: 'MyController',
+          template: '<div  ng-controller="MyController"' +
+                    '      ng-click="counter = counter + 1">' +
+                    'You\'ve clicked this div {{counter}} times' +
+                    '</div>'
+        }
+      });
+
+      app.controller('MyController', function($scope) {
+        $scope.counter = 0;
+      });
+    </script>
+  </head>
+
+  <body>
+    <counter-directive></counter-directive>
+  </body>
 </html>

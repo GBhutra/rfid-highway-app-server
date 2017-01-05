@@ -15,6 +15,7 @@
   "dependencies": {
     "async": "2.1.4",
     "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",
     "express": "4.14.0",
     "express-session": "^1.14.2",
@@ -23,9 +24,11 @@
     "mongodb": "2.2.11",
     "mongoose": "4.7.0",
     "mongoose-tree": "^0.2.2",
+    "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "semantic-ui": "^2.2.6",
+    "serve-favicon": "^2.3.2",
     "underscore": "^1.8.3",
     "wagner-core": "^0.2.0"
   },
