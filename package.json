@@ -7,7 +7,7 @@
     "test": "tests/gulp test",
     "start": "node app/index.js",
     "watch": "gulp watch",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
