@@ -7,7 +7,7 @@
     "test": "tests/gulp test",
     "start": "node app/index.js",
     "watch": "gulp watch",
-    "postinstall": "bower install"
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,7 @@
   "dependencies": {
     "async": "2.1.4",
     "body-parser": "^1.15.2",
+    "bower": "^1.8.0",
     "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",
     "express": "4.14.0",
