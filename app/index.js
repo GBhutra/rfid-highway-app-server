@@ -20,15 +20,14 @@ app.use(bodyParser.json({limit:'50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public/')));
-app.use(express.static(path.join(__dirname, '../app_client/app')));
-app.use(express.static(path.join(__dirname, '../app_client/.tmp')));
+app.use(express.static(path.join(__dirname, '../public/app')));
 
 //API for assets
 app.use('/assets',require('./api/asset_api')(wagner));
 
 //sending the default index.html
 app.use(function(req, res) {
-  res.sendFile(path.join(__dirname, '../app_client/app/','index.html'));
+  res.sendFile(path.join(__dirname, '../public/app/','index.html'));
 });
 
 // catch 404 and forward to error handler

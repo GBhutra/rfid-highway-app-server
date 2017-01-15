@@ -6,11 +6,13 @@
  * @description
  * # adminPosHeader
  */
-angular.module('rfidLabAdminApp')
-	.directive('timeline',function() {
-    return {
-        templateUrl:'scripts/directives/timeline/timeline.html',
+angular.module('sbAdminApp')
+	.directive('notifications',function(){
+		return {
+        templateUrl:'scripts/directives/notifications/notifications.html',
         restrict: 'E',
         replace: true,
-    }
-  });
+    	}
+	});
+
+
