@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public/')));
 app.use(express.static(path.join(__dirname, '../app_client/app')));
-//app.use(express.static(path.join(__dirname, '../app_client/.tmp')));
+app.use(express.static(path.join(__dirname, '../app_client/.tmp')));
 
 //API for assets
 app.use('/assets',require('./api/asset_api')(wagner));
