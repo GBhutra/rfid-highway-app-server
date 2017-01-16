@@ -8,14 +8,9 @@
  * Main module of the application.
  */
 angular
-  .module('rfidLabAdminApp', [
-    'oc.lazyLoad',
-    'ui.router',
-    'ui.bootstrap',
-    'angular-loading-bar',
-  ])
+  .module('rfidLabAdminApp', ['oc.lazyLoad','ui.router','ui.bootstrap','angular-loading-bar'])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
-    
+
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
@@ -154,5 +149,3 @@ angular
        url:'/grid'
    })
   }]);
-
-    
