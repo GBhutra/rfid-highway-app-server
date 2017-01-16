@@ -1,0 +1,1 @@
+"use strict";angular.module("rfidLabAdminApp").controller("MainCtrl",function($scope,$position){});

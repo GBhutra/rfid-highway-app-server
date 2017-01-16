@@ -2,11 +2,18 @@ var bodyparser = require('body-parser');
 var express = require('express');
 var status = require('http-status');
 var _ = require('underscore');
+var jwt = require('express-jwt');
 
 module.exports = function(wagner) {
   var assetRouter = express.Router();
   assetRouter.use(bodyparser.json());
-  
+
+  var config = wagner.invoke(function(Config) {return Config} );
+  var auth = jwt({
+    secret: config.secretKey,
+    userProperty: 'payload'
+  });
+
   assetRouter.get('/assets',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
       if (!req.user) {
