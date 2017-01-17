@@ -26,8 +26,6 @@ wagner.invoke(require('./config/authentication'), { app: app });
 app.use(express.static(path.join(__dirname, '../public/')));
 
 //API for authentication and registration etc
-app.use('/',require('./api/authentication_api')(wagner));
-
 var auth = wagner.invoke(function(Config) {
   var A = jwt({
     secret: Config.secretKey,
