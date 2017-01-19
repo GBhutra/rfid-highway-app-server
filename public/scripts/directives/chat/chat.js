@@ -1,1 +1,0 @@
-"use strict";angular.module("rfidLabAdminApp").directive("chat",function(){return{templateUrl:"scripts/directives/chat/chat.html",restrict:"E",replace:!0}});
