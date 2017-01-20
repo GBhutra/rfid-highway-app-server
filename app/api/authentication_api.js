@@ -18,12 +18,10 @@ module.exports = function(wagner) {
       else {
         passport.authenticate('local', function(err, user, info){
           var token;
-
           // If Passport throws/catches an error
           if (err) {
             return res.status(status.INTERNAL_SERVER_ERROR).json({ err: error.toString() });
           }
-
           // If a user is found
           if(user){
             token = user.generateJwt();
@@ -35,7 +33,7 @@ module.exports = function(wagner) {
             // If user is not found
             return res.status(status.UNAUTHORIZED).json({ 'message': "User Not Found !" });
           }
-        });
+        })(req, res);
       }
     }
   }));

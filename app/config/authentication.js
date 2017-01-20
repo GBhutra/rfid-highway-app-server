@@ -1,18 +1,7 @@
-function setupAuth(User, app, Config) {
+function setupAuth(User, Config, app) {
     var passport = require('passport');
     var LocalStrategy = require('passport-local').Strategy;
-
-  // High level serialize/de-serialize configuration for passport
-  passport.serializeUser(function(user, done) {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    User.
-      findOne({ _id : id }).
-      exec(done);
-  });
-
+    
   passport.use(new LocalStrategy({
     usernameField: 'email'
   },
@@ -35,10 +24,8 @@ function setupAuth(User, app, Config) {
       return done(null, user);
     });
   }));
-  //Initializing the passport middleware
-  app.use(passport.initialize());
-  app.use(passport.session());
 
+  app.use(passport.initialize());
 }
 
 module.exports = setupAuth;
