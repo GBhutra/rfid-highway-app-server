@@ -32,7 +32,7 @@ describe('Assets api',function()  {
       if (err) {
         return done(err);
       }
-      console.log(JSON.parse(res.text));
+      var token = JSON.parse(res.text);
       assert.notEqual(res.text.token,null);
       done();
     });

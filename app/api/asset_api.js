@@ -10,9 +10,12 @@ module.exports = function(wagner) {
 
   assetRouter.get('/assets',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
+
       if (!req.payload._id) {
         res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
       } else {
+        console.log('ID found !!');
+        console.log(req);
         User
           .findById(req.payload._id)
           .exec(function(err,usr){

@@ -6,6 +6,7 @@ var dbURI;
 module.exports = function(wagner) {
 
   var config = wagner.invoke(function(Config) {return Config} );
+  console.log('SecretKey: '+config.secretKey);
   mongoose.connect(process.env.MONGOLAB_URI || config.dbURI);
   dbURI = process.env.MONGOLAB_URI || config.dbURI;
   wagner.factory('db', function() {

@@ -32,6 +32,7 @@ app.use('/', require('./api/authentication_api')(wagner));
 
 //API for authentication and registration etc
 var auth = wagner.invoke(function(Config) {
+  console.log(Config.secretKey);
   var A = jwt({
     secret: Config.secretKey,
     userProperty: 'payload'
