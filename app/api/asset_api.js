@@ -10,11 +10,11 @@ module.exports = function(wagner) {
 
   assetRouter.get('/assets',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
-      if (!req.user) {
+      if (!req.payload._id) {
         res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
       } else {
         User
-          .findById(req.user._id)
+          .findById(req.payload._id)
           .exec(function(err,usr){
             if(err)
               return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
@@ -33,11 +33,11 @@ module.exports = function(wagner) {
 
   assetRouter.get('/assets/:loc',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
-      if (!req.user) {
+      if (!req.payload._id) {
         res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
       } else {
         User
-          .findById(req.user._id)
+          .findById(req.payload._id)
           .exec(function(err,usr){
             if(err)
               return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
@@ -59,11 +59,11 @@ module.exports = function(wagner) {
 
   assetRouter.post('/assets/asset',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
-      if (!req.user) {
+      if (!req.payload._id) {
         res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
       } else {
         User
-          .findById(req.user._id)
+          .findById(req.payload._id)
           .exec(function(err,usr){
             if(err)
               return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });
@@ -85,11 +85,11 @@ module.exports = function(wagner) {
 
   assetRouter.put('/assets/asset/:epcVal',wagner.invoke(function(Asset,User) {
     return function(req,res)  {
-      if (!req.user) {
+      if (!req.payload._id) {
         res.status(status.UNAUTHORIZED).json({ error: 'Not logged in' });
       } else {
         User
-          .findById(req.user._id)
+          .findById(req.payload._id)
           .exec(function(err,usr){
             if(err)
               return res.status(status.INTERNAL_SERVER_ERROR).json({ error: error.toString() });

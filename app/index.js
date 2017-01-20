@@ -25,6 +25,11 @@ wagner.invoke(require('./config/authentication'), { app: app });
 //Give permissions to the public folder
 app.use(express.static(path.join(__dirname, '../public/')));
 
+
+//API for dashBoard
+app.use('/', require('./api/authentication_api')(wagner));
+
+
 //API for authentication and registration etc
 var auth = wagner.invoke(function(Config) {
   var A = jwt({

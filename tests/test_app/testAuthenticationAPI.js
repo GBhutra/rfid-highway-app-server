@@ -4,7 +4,6 @@ var fs = require('fs');
 var status = require('http-status');
 var superagent = require('superagent');
 var wagner = require('wagner-core');
-var tags = require('./TestAssets');
 var uData = require('./TestUsers');
 var mongodb = require('mongodb');
 var jwt = require('express-jwt');
@@ -19,32 +18,27 @@ describe('Assets api',function()  {
   var server;
   var app;
   var db;
-  var Asset;
-  var Log;
   var User;
   var models;
 
-  it('can list all assets',function(done){
-    superagent.get(URL_ROOT+'/assets')
+  it('can login a user',function(done){
+    superagent.post(URL_ROOT+'/login')
+    .set('Content-Type','application/json')
+    .send({
+      "email": "admin@example.com",
+			"password":"password"
+    })
     .end(function(err,res){
       if (err) {
         return done(err);
       }
-      db.collection('assets').find({}).toArray(function(err,assets) {
-        if (err)
-          return done(err);
-        else if(res.text.length==JSON.stringify(assets).length) {
-          done();
-        }
-        else  {
-          done("number of assets mismatch!!");
-
-        }
-      });
+      var token = JSON.parse(res.text);
+      assert.notEqual(res.text.token,null);
+      done();
     });
   });
-
-  it('can create an asset',function(done){
+/*
+  it('can register a new user',function(done){
     superagent.post(URL_ROOT+'/assets/asset')
     .set('Content-Type','application/json')
     .send({
@@ -60,7 +54,7 @@ describe('Assets api',function()  {
     });
   });
 
-  it('can update an asset',function(done){
+  it('does not allow a non-user to access',function(done){
     superagent.put(URL_ROOT+'/assets/asset/')
     .query({epcVal:"0xe20021002000531114712342"})
     .set('Content-Type','application/json')
@@ -79,26 +73,7 @@ describe('Assets api',function()  {
       });
     });
   });
-
- it('can list all assets from a location',function(done){
-    superagent.get(URL_ROOT+'/assets/Riverside')
-    .end(function(err,res){
-      if (err) {
-        return done(err);
-      }
-     db.collection('assets').find({'data.location':'Riverside'}).toArray(function(err,assets) {
-        if (err)
-          return done(err);
-        else if(res.text.length==JSON.stringify(assets).length) {
-          done();
-        }
-        else  {
-          done("number of assets mismatch!!");
-        }
-      });
-    });
-  });
-    
+  */
 //before the test begin
   before(function() {
     app = express();
@@ -175,29 +150,10 @@ describe('Assets api',function()  {
     user.save(function(error)  {
       assert.ifError(error);
       db.collection('users').count({name:"Admin RFIDLab"}, function(error, c) {
-        assert.ifError(error);
-        assert.equal(c, 1);
-        done();
       });
     });
 
-    //API for assets
-    app.use('/assets', auth,require('../../app/api/asset_api')(wagner));
     server = app.listen(3000);
-
-    superagent.post(URL_ROOT+'/login')
-    .set('Content-Type','application/json')
-    .send({
-      "email": "admin@example.com",
-			"password":"password"
-    })
-    .end(function(err,res){
-      if (err) {
-        return done(err);
-      }
-      console.log(res);
-      done();
-    });
   });
   
 

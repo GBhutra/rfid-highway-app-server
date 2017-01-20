@@ -53,6 +53,23 @@ gulp.task('test_asset_api', function() {
     });
 });
 
+gulp.task('test_auth_api', function() {
+  var error = false;
+  gulp.
+    src('./test_app/testAuthenticationAPI.js').
+    pipe(mocha()).
+    on('error', function() {
+      console.log('Tests failed!');
+      error = true;
+    }).
+    on('end', function() {
+      if (!error) {
+        console.log('Tests succeeded!');
+        process.exit(0);
+      }
+    });
+});
+
 gulp.task('test_app', function()  {
    runSequesce('test_asset_model','test_user_model','test_asset_api');
 });
